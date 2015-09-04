@@ -40,7 +40,7 @@
       <a href=#>Следить за игрой</a>
         </li>
         <li>
-      <a href=#>Редактировать</a>
+      <a href=/storylet/update?id=<?= $model->storylet_id?>>Редактировать</a>
         </li>
       </div>
 

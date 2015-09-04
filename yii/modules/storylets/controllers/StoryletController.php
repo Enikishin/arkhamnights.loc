@@ -12,7 +12,6 @@ use app\models\User;
 
 class SiteController extends Controller
 {
-   sdfsdf
  
     public function behaviors()
     {

@@ -51,7 +51,7 @@ class StoryletController extends Controller
     //echo $model->storylet_name;
     //echo $model->storylet_desc;
 
-            //return $this->goBack();
+            return $this->goBack();
             }
         else {
    
@@ -64,5 +64,16 @@ class StoryletController extends Controller
     $model=Storylet::findOne($id);
     
     return $this->render('view',['model'=> $model]);
+    }
+    public function actionUpdate($id)
+    {
+      $model=Storylet::findOne($id);
+      
+    if ($model->load(Yii::$app->request->post())&& $model->validate())  {
+      $model->attributes=Yii::$app->request->post();
+      $model->saveStorylet();  
+     }
+    
+    return $this->render('create',['model'=> $model]);
     }
     }

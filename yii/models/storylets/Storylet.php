@@ -36,7 +36,7 @@ public static function tableName()
             [['owner_id','status','created_at','updated_at'],'safe'],
             ['owner_id','integer'],
             ['status','default','value'=>1],
-            [['storylet_img'], 'file', 'extensions' => 'png, jpg'],
+            [['storylet_img'], 'file', 'extensions' => 'png, jpg','skipOnEmpty' => true],
                     
         ];
     }
@@ -77,19 +77,27 @@ public static function tableName()
     
 
     $this->owner_id=Yii::$app->user->identity->id;
-    //$this->storylet_img=('images'.$model->storylet_id.'\test.jpg');
+    
+  $file=UploadedFile::getInstance($this, 'storylet_img');
+    if (!empty ($file)) {
     $this->storylet_img = UploadedFile::getInstance($this, 'storylet_img');
-     $this->save();
-      FileHelper::createDirectory('images/'.$this->storylet_id) ;
+     }
+    //var_dump ($this->storylet_img);
+    $this->save();
+   FileHelper::createDirectory('images/'.$this->storylet_id) ;
+   
       //$this->storylet_img = UploadedFile::getInstance($this, 'storylet_img');
          //var_dump($_FILES);
-        
-
+   
+     if (!empty ($file)) {
      $this->storylet_img->saveAs('images/'.$this->storylet_id.'/' . $this->storylet_img->baseName . '.' . $this->storylet_img->extension);
       $image=Yii::$app->image->load('images/'.$this->storylet_id.'/' . $this->storylet_img->baseName . '.' . $this->storylet_img->extension);
-           $image->resize(50,50);
+      
+      if ($image->width>500) {
+      $image->resize(50,50);
+      }
             $image->save(); 
-    
+     } 
     // var_dump($_FILES);
          // $this->save(); 
    } 
